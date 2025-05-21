@@ -58,9 +58,6 @@ const UserSchema = new Schema(
       type: Number,
       default: 0,
     },
-    deletedAt: {
-      type: Date,
-    },
   },
   { timestamps: true, collection: 'users' },
 );
