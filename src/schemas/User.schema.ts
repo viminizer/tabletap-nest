@@ -18,13 +18,17 @@ const UserSchema = new Schema(
       enum: UserAuthType,
       default: UserAuthType.TELEGRAM,
     },
+    telegramId: {
+      type: String,
+      index: { unique: true, sparse: true },
+      required: true,
+    },
     userPhone: {
       type: String,
       index: { unique: true, sparse: true },
     },
-    userNick: {
+    userName: {
       type: String,
-      index: { unique: true, sparse: true },
       required: true,
     },
     userPassword: {
