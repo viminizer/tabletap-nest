@@ -1,12 +1,12 @@
 import { ObjectId } from 'mongoose';
-import { UserAuthType, UserStatus, UserType } from 'src/libs/enums/user.enums';
+import { EUserAuthType, EUserStatus, EUserType } from 'src/libs/enums';
 
 export class UserDto {
   readonly _id: ObjectId;
   readonly telegramId: string;
-  readonly userType: UserType;
-  readonly userStatus: UserStatus;
-  readonly userAuthType: UserAuthType;
+  readonly userType: EUserType;
+  readonly userStatus: EUserStatus;
+  readonly userAuthType: EUserAuthType;
   readonly userPhone: string;
   readonly userName?: string;
   readonly userPassword?: string;

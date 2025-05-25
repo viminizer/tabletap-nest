@@ -1,22 +1,22 @@
 import { Schema } from 'mongoose';
-import { UserAuthType, UserStatus, UserType } from '../libs/enums/user.enums';
+import { EUserAuthType, EUserStatus, EUserType } from 'src/libs/enums';
 
 const UserSchema = new Schema(
   {
     userType: {
       type: String,
-      enum: UserType,
-      default: UserType.USER,
+      enum: EUserType,
+      default: EUserType.USER,
     },
     userStatus: {
       type: String,
-      enum: UserStatus,
-      default: UserStatus.ACTIVE,
+      enum: EUserStatus,
+      default: EUserStatus.ACTIVE,
     },
     userAuthType: {
       type: String,
-      enum: UserAuthType,
-      default: UserAuthType.TELEGRAM,
+      enum: EUserAuthType,
+      default: EUserAuthType.TELEGRAM,
     },
     telegramId: {
       type: String,
