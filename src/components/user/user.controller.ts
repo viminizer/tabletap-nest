@@ -6,10 +6,11 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('create')
-  async createUser(@Body() userInput: UserInputDto): Promise<UserDto> {
-    console.log('createUser');
-    const result = await this.userService.createUser(userInput);
+  @Post('auth')
+  async authUser(@Body() userInput: UserInputDto): Promise<UserDto> {
+    console.log('authUser');
+    console.log('USERINPUT:', userInput);
+    const result = await this.userService.authUser(userInput);
     return result;
   }
 }

@@ -29,12 +29,10 @@ const UserSchema = new Schema(
     },
     userName: {
       type: String,
-      required: true,
     },
     userPassword: {
       type: String,
       select: false,
-      required: true,
     },
     userFullName: {
       type: String,
