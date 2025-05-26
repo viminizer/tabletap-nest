@@ -13,4 +13,9 @@ export class UserController {
     const result = await this.userService.authUser(userInput);
     return result;
   }
+  @Post('validate')
+  async validateUserData(@Body() initData: string): Promise<void> {
+    console.log('validate');
+    console.log('USerdata===========:', initData);
+  }
 }

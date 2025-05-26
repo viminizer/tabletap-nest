@@ -1,0 +1,24 @@
+services:
+  tabeletap-nest:
+    container_name: tabletap-nest
+    restart: always
+    image: node:20.18.1
+    ports:
+      - 6767:6767
+    volumes:
+      - ./:/usr/src/tabletap-nest
+    working_dir: /usr/src/tabletap-nest
+
+    networks:
+      - tabletap-nest-network
+
+    #production
+    command: bash -c "npm install pnpm -g && pnpm run start:dev"
+
+networks:
+  tabletap-nest-network:
+    driver: bridge
+# estatein-front: localhost: 4000
+#
+# estatein-back: localhost: 4001
+# estatein-batch: localhost: 4002

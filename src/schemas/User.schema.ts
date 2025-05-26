@@ -29,6 +29,7 @@ const UserSchema = new Schema(
     },
     userName: {
       type: String,
+      index: { unique: true, sparse: true },
     },
     userPassword: {
       type: String,
