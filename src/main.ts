@@ -8,6 +8,6 @@ async function bootstrap() {
   app.enableCors({ origin: true });
   app.useGlobalFilters(new FHttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.PORT ?? 3003);
+  await app.listen(process.env.PORT ?? 6767);
 }
 bootstrap();

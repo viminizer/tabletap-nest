@@ -13,12 +13,8 @@ services:
       - tabletap-nest-network
 
     #production
-    command: bash -c "npm install pnpm -g && pnpm run start:dev"
+    command: bash -c "npm install pnpm -g && pnpm install && pnpm run start:dev"
 
 networks:
   tabletap-nest-network:
     driver: bridge
-# estatein-front: localhost: 4000
-#
-# estatein-back: localhost: 4001
-# estatein-batch: localhost: 4002
