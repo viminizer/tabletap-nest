@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { EUserAuthType, EUserStatus, EUserType } from 'src/libs/enums';
+import { EUserStatus, EUserType } from 'src/libs/enums';
 
 const UserSchema = new Schema(
   {
@@ -13,11 +13,6 @@ const UserSchema = new Schema(
       enum: EUserStatus,
       default: EUserStatus.ACTIVE,
     },
-    userAuthType: {
-      type: String,
-      enum: EUserAuthType,
-      default: EUserAuthType.TELEGRAM,
-    },
     telegramId: {
       type: String,
       index: { unique: true, sparse: true },
@@ -29,7 +24,6 @@ const UserSchema = new Schema(
     },
     userName: {
       type: String,
-      index: { unique: true, sparse: true },
     },
     userPassword: {
       type: String,
@@ -41,25 +35,6 @@ const UserSchema = new Schema(
     userImage: {
       type: String,
       default: '',
-    },
-    userAddress: {
-      type: String,
-    },
-    userRestaurants: {
-      type: Number,
-      default: 0,
-    },
-    userPoints: {
-      type: Number,
-      default: 0,
-    },
-    userRank: {
-      type: Number,
-      default: 0,
-    },
-    userBlocks: {
-      type: Number,
-      default: 0,
     },
   },
   { timestamps: true, collection: 'users' },

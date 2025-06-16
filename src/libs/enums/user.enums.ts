@@ -1,6 +1,5 @@
 export enum EUserType {
   USER = 'USER',
-  AGENT = 'AGENT',
   ADMIN = 'ADMIN',
 }
 
