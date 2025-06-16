@@ -1,6 +1,7 @@
-import { EErrorMessage } from './error-messages';
-import { EUserAuthType, EUserStatus, EUserType } from './user.enums';
-import { EReservationStatus } from './reservation.enums';
+import { EErrorMessage } from './error-messages.enum';
+import { EUserAuthType, EUserStatus, EUserType } from './user.enum';
+import { EReservationStatus } from './reservation.enum';
+import { ERestaurantStatus } from './restaurant.enum';
 
 export {
   EErrorMessage,
@@ -8,4 +9,5 @@ export {
   EUserStatus,
   EUserAuthType,
   EReservationStatus,
+  ERestaurantStatus,
 };
