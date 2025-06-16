@@ -98,4 +98,4 @@ RestaurantSchema.pre('save', function (next) {
   next();
 });
 
-export { RestaurantSchema };
+export default RestaurantSchema;

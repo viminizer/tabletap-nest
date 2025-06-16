@@ -12,7 +12,7 @@ import {
   ValidateIf,
 } from 'class-validator';
 
-export class RestaurantInputDTO {
+export class CreateRestaurantDTO {
   @IsNotEmpty()
   @IsString()
   name: string;
