@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { RestaurantResponseDTO } from './dto/restaurant-response.dto';
 import { CreateRestaurantDTO } from './dto';
 import { EErrorMessage } from 'src/libs/enums';
+import { mapToDTO } from 'src/libs/utils/mapper';
 
 @Injectable()
 export class RestaurantService {
@@ -17,7 +18,7 @@ export class RestaurantService {
   ): Promise<RestaurantResponseDTO> {
     try {
       const newRest = await this.restaurantModel.create(createRestaurantDTO);
-      return newRest;
+      return mapToDTO(RestaurantResponseDTO, newRest.toObject());
     } catch (err) {
       console.log('[RestaurantService: createRestaurant] ', err);
       throw new InternalServerErrorException(EErrorMessage.CREATE_FAILED);
