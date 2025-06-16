@@ -1,0 +1,6 @@
+export enum EReservationStatus {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED',
+  COMPELETED = 'COMPLETED',
+}
