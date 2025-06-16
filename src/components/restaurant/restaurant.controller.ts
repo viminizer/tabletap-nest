@@ -17,6 +17,7 @@ export class RestaurantController {
 
   @Get('/:id')
   async getRestaurant(@Param('id') id: string) {
+    console.log('--- [RestaurantController] getRestaurant');
     return this.restaurantService.getRestaurant(id);
   }
 }

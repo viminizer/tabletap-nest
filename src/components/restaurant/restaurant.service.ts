@@ -25,7 +25,9 @@ export class RestaurantService {
       return mapToDTO(RestaurantResponseDTO, newRest.toObject());
     } catch (err) {
       console.log('[RestaurantService: createRestaurant] ', err);
-      throw new InternalServerErrorException(EErrorMessage.CREATE_FAILED);
+      throw new InternalServerErrorException(
+        err.message ? err.message : EErrorMessage.CREATE_FAILED,
+      );
     }
   }
 
@@ -33,7 +35,7 @@ export class RestaurantService {
     const objectId = castIntoMongoObjectId(id);
     const result = await this.restaurantModel
       .findOne({
-        restaurantStatus: ERestaurantStatus.ACTIVE,
+        status: ERestaurantStatus.ACTIVE,
         _id: objectId,
       })
       .lean()

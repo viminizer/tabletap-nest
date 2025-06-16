@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { EReservationStatus, ERestaurantStatus } from 'src/libs/enums';
+import { ERestaurantStatus } from 'src/libs/enums';
 
 export type RestaurantDocument = Restaurant & Document;
 
@@ -15,7 +15,7 @@ export class Restaurant {
   @Prop({
     required: true,
     enum: ERestaurantStatus,
-    default: EReservationStatus.PENDING,
+    default: ERestaurantStatus.ACTIVE,
   })
   status: string;
 

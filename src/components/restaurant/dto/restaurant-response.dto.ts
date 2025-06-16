@@ -1,10 +1,12 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class RestaurantResponseDTO {
-  @Expose()
+  @Expose({ name: '_id' })
+  @Transform(({ obj }) => obj._id.toString())
   readonly id: string;
 
   @Expose()
+  @Transform(({ obj }) => obj.ownerId.toString())
   readonly ownerId: string;
 
   @Expose()
