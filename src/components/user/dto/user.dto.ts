@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongoose';
-import { EUserAuthType, EUserStatus, EUserType } from 'src/libs/enums';
+import { EUserStatus, EUserType } from 'src/libs/enums';
 
 export class UserDto {
   _id: ObjectId;

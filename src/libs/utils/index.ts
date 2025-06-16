@@ -4,3 +4,5 @@ export const castIntoMongoObjectId = (target: any) => {
     ? new mongoose.Types.ObjectId(target)
     : target;
 };
+
+export const TOKEN_TTL = '30d';
