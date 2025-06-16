@@ -4,7 +4,8 @@ import { EReservationStatus } from 'src/libs/enums';
 const ReservationSchema = new Schema(
   {
     status: {
-      type: EReservationStatus,
+      type: String,
+      enum: EReservationStatus,
       default: EReservationStatus.PENDING,
     },
     userId: {
