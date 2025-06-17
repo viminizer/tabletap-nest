@@ -41,7 +41,7 @@ export class RestaurantQueryDTO {
   limit: number;
 
   @IsOptional()
-  @IsIn(['createdAt', 'updatedAt', 'restaurantLikes', 'restaurantViews'])
+  @IsIn(['createdAt', 'updatedAt', 'likes', 'views'])
   sort?: string;
 
   @IsOptional()

@@ -4,6 +4,8 @@ import {
   UpdateRestaurantDTO,
 } from '../dto';
 
+export const MONGO_OBJECT_ID = '507f1f77bcf86cd799439011';
+
 export const mockCreateRestaurantDTO: CreateRestaurantDTO = {
   ownerId: '685018c0ccc63266b76b0321',
   name: 'Test Restaurant',
@@ -69,4 +71,3 @@ export const mockUpdateRestaurantResponseDTO: RestaurantResponseDTO = {
 };
 
 export const NON_EXISTENT_ID = 'non-existent-id';
-export const MONGO_OBJECT_ID = '685018c0ccc63266b76b0321';

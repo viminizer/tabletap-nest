@@ -80,7 +80,7 @@ export class RestaurantService {
       { new: true, lean: true },
     );
     if (!result) {
-      //TODO:(kevin): create better error handling for specific errors
+      //FIXME:(kevin): create better error handling for specific errors
       throw new InternalServerErrorException(EErrorMessage.UPDATE_FAILED);
     }
     return mapToDTO(RestaurantResponseDTO, result);
