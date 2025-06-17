@@ -77,6 +77,18 @@ export class Restaurant {
     type: 'Point';
     coordinates: [number, number];
   };
+
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  likes: number;
+
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  views: number;
 }
 
 const RestaurantSchema = SchemaFactory.createForClass(Restaurant);

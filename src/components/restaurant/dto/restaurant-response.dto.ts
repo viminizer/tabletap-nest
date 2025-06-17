@@ -40,8 +40,19 @@ export class RestaurantResponseDTO {
   readonly location?: string;
 
   @Expose()
+  readonly likes: number;
+
+  @Expose()
+  readonly views: number;
+
+  @Expose()
   readonly createdAt: Date;
 
   @Expose()
   readonly updatedAt: Date;
+}
+
+export class RestaurantsResponseDTO {
+  list: RestaurantResponseDTO[];
+  total: number;
 }

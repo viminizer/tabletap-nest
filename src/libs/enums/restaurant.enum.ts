@@ -14,3 +14,7 @@ Suspended: Restaurant banned or suspended.
 Archived: Removed from active listings but kept for records.
 Draft: Being created or edited, not live yet.
 */
+export enum EDirection {
+  ASC = 1,
+  DESC = -1,
+}

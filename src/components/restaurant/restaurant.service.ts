@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -8,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
   CreateRestaurantDTO,
+  RestaurantQueryDTO,
   RestaurantResponseDTO,
   UpdateRestaurantDTO,
 } from './dto';
@@ -16,7 +16,8 @@ import {
   cleanPayload,
   mapToDTO,
 } from '../../libs/utils';
-import { EErrorMessage, ERestaurantStatus } from '../../libs/enums';
+import { EDirection, EErrorMessage, ERestaurantStatus } from '../../libs/enums';
+import { T } from '../../libs/types/common';
 
 @Injectable()
 export class RestaurantService {
@@ -54,6 +55,16 @@ export class RestaurantService {
     return mapToDTO(RestaurantResponseDTO, result);
   }
 
+  public async getRestaurants(
+    restaurantQuery: RestaurantQueryDTO,
+  ): Promise<void> {
+    const match: T = { status: ERestaurantStatus.ACTIVE };
+    const sort: T = {
+      [restaurantQuery?.sort ?? 'createdAt']:
+        restaurantQuery?.direction ?? EDirection.DESC,
+    };
+  }
+
   public async updateRestaurant(
     id: string,
     updateRestaurantDTO: UpdateRestaurantDTO,
@@ -83,5 +94,22 @@ export class RestaurantService {
     if (!result) {
       throw new NotFoundException(EErrorMessage.NO_DATA_FOUND);
     }
+  }
+
+  // FIXME:(kevin): this method must be completed
+  private shapeMatchQuery(match: T, input: RestaurantQueryDTO): void {
+    const { location, openingTime, closingTime } = input.search;
+    const maxDistanceInMeters = 5000;
+    let longitude = 3000,
+      latitude = 20000;
+    match.location = {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [longitude, latitude],
+        },
+        $maxDistance: maxDistanceInMeters,
+      },
+    };
   }
 }

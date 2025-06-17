@@ -8,10 +8,12 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { RestaurantService } from './restaurant.service';
 import {
   CreateRestaurantDTO,
+  RestaurantQueryDTO,
   RestaurantResponseDTO,
   UpdateRestaurantDTO,
 } from './dto';
@@ -19,6 +21,12 @@ import {
 @Controller('restaurant')
 export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
+
+  @Get()
+  async getRestaurants(@Query() restaurantQuery: RestaurantQueryDTO) {
+    console.log('--- [RestaurantController] getRestaurants');
+    console.dir(restaurantQuery, { depth: null });
+  }
 
   @Post('create')
   async createRestaurant(
