@@ -1,13 +1,12 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RestaurantService } from './restaurant.service';
-import { CreateRestaurantDTO } from './dto';
-import { RestaurantResponseDTO } from './dto/restaurant-response.dto';
+import { CreateRestaurantDTO, RestaurantResponseDTO } from './dto';
 
 @Controller('restaurant')
 export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
 
-  @Post()
+  @Post('/create')
   async createRestaurant(
     @Body() createRestaurantDTO: CreateRestaurantDTO,
   ): Promise<RestaurantResponseDTO> {

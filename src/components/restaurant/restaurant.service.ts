@@ -5,8 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { RestaurantResponseDTO } from './dto/restaurant-response.dto';
-import { CreateRestaurantDTO } from './dto';
+import { CreateRestaurantDTO, RestaurantResponseDTO } from './dto';
 import { EErrorMessage, ERestaurantStatus } from 'src/libs/enums';
 import { castIntoMongoObjectId, mapToDTO } from 'src/libs/utils';
 
