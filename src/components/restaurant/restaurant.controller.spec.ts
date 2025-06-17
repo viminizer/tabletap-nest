@@ -1,8 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RestaurantController } from './restaurant.controller';
 import { RestaurantService } from './restaurant.service';
-import { CreateRestaurantDTO } from './dto/create-restaurant.dto';
-import { RestaurantResponseDTO } from './dto/restaurant-response.dto';
+import {
+  mockCreateRestaurantDTO,
+  mockRestaurantResponseDTO,
+  mockUpdateRestaurantDTO,
+  mockUpdateRestaurantResponseDTO,
+  MONGO_OBJECT_ID,
+  NON_EXISTENT_ID,
+} from './__mocks__/restaurant.mock';
+import { NotFoundException } from '@nestjs/common';
+import { EErrorMessage } from '../../libs/enums';
+import { RestaurantResponseDTO, UpdateRestaurantDTO } from './dto';
 
 describe('RestaurantController', () => {
   let controller: RestaurantController;
@@ -16,6 +25,9 @@ describe('RestaurantController', () => {
           provide: RestaurantService,
           useValue: {
             createRestaurant: jest.fn(),
+            getRestaurant: jest.fn(),
+            updateRestaurant: jest.fn(),
+            deleteRestaurant: jest.fn(),
           },
         },
       ],
@@ -27,40 +39,76 @@ describe('RestaurantController', () => {
 
   describe('createRestaurant', () => {
     it('should call service and return RestaurantResponseDTO', async () => {
-      const dto: CreateRestaurantDTO = {
-        ownerId: '685018c0ccc63266b76b0321',
-        name: 'Test Restaurant',
-        description: 'Cozy place with beautiful sunset views.',
-        address: '789 Ocean Drive, Miami, FL',
-        phone: '+13051234567',
-        email: 'contact@sunsetgrill.com',
-        openingTime: 1100,
-        closingTime: 2230,
-        breakTime: [1500, 1600],
-        location: 'Miami Beach',
-      };
-      const response: RestaurantResponseDTO = {
-        id: expect.any(String),
-        status: 'ACTIVE',
-        ownerId: '685018c0ccc63266b76b0321',
-        name: 'Test Restaurant',
-        description: 'Cozy place with beautiful sunset views.',
-        address: '789 Ocean Drive, Miami, FL',
-        phone: '+13051234567',
-        email: 'contact@sunsetgrill.com',
-        openingTime: 1100,
-        closingTime: 2230,
-        breakTime: [1500, 1600],
-        location: 'Miami Beach',
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String),
-      };
-
+      const dto = mockCreateRestaurantDTO;
+      const response = mockRestaurantResponseDTO;
       (service.createRestaurant as jest.Mock).mockResolvedValue(response);
-
       const result = await controller.createRestaurant(dto);
       expect(service.createRestaurant).toHaveBeenCalledWith(dto);
       expect(result).toEqual(response);
+    });
+  });
+
+  describe('getRestaurant', () => {
+    it('should call service with restaurant id and return RestaurantResponseDTO ', async () => {
+      const id: string = MONGO_OBJECT_ID;
+      const response = mockUpdateRestaurantResponseDTO;
+      (service.getRestaurant as jest.Mock).mockResolvedValue(response);
+      const result = await controller.getRestaurant(id);
+      expect(service.getRestaurant).toHaveBeenCalledWith(id);
+      expect(result).toEqual(response);
+    });
+
+    it('should throw NotFoundException if restaurant does not exist', async () => {
+      const id: string = NON_EXISTENT_ID;
+      (service.getRestaurant as jest.Mock).mockRejectedValue(
+        new NotFoundException(EErrorMessage.NO_DATA_FOUND),
+      );
+      await expect(controller.getRestaurant(id)).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+  });
+
+  describe('updateRestaurant', () => {
+    it('should call service with restaurant id and dto, then return RestaurantResponseDTO', async () => {
+      const id: string = MONGO_OBJECT_ID;
+      const dto: UpdateRestaurantDTO = mockUpdateRestaurantDTO;
+      const response: RestaurantResponseDTO = mockUpdateRestaurantResponseDTO;
+      (service.updateRestaurant as jest.Mock).mockResolvedValue(response);
+      const result = await controller.updateRestaurant(id, dto);
+      expect(service.updateRestaurant).toHaveBeenCalledWith(id, dto);
+      expect(result).toEqual(response);
+    });
+
+    it('should throw NotFoundException if restaurant does not exist', async () => {
+      const id: string = NON_EXISTENT_ID;
+      const dto: UpdateRestaurantDTO = mockUpdateRestaurantDTO;
+      (service.updateRestaurant as jest.Mock).mockRejectedValue(
+        new NotFoundException(EErrorMessage.NO_DATA_FOUND),
+      );
+      expect(controller.updateRestaurant(id, dto)).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+  });
+
+  describe('deleteRestaurant', () => {
+    it('should call service with id and return NO_CONTENT status code', async () => {
+      const id = MONGO_OBJECT_ID;
+      (service.deleteRestaurant as jest.Mock).mockResolvedValue(undefined);
+      const response = await controller.deleteRestaurant(id);
+      expect(service.deleteRestaurant).toHaveBeenCalledWith(id);
+      expect(response).toBeUndefined();
+    });
+
+    it('should throw NotFoundException if restaurant does not exist', async () => {
+      const id: string = NON_EXISTENT_ID;
+      (service.deleteRestaurant as jest.Mock).mockRejectedValue(
+        new NotFoundException(EErrorMessage.NO_DATA_FOUND),
+      );
+      expect(controller.deleteRestaurant(id)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

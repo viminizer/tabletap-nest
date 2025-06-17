@@ -49,7 +49,7 @@ export class RestaurantService {
       .lean()
       .exec();
     if (!result) {
-      throw new BadRequestException(EErrorMessage.NO_DATA_FOUND);
+      throw new NotFoundException(EErrorMessage.NO_DATA_FOUND);
     }
     return mapToDTO(RestaurantResponseDTO, result);
   }
