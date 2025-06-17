@@ -5,9 +5,13 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateRestaurantDTO, RestaurantResponseDTO } from './dto';
+import {
+  CreateRestaurantDTO,
+  RestaurantResponseDTO,
+  UpdateRestaurantDTO,
+} from './dto';
 import { EErrorMessage, ERestaurantStatus } from 'src/libs/enums';
-import { castIntoMongoObjectId, mapToDTO } from 'src/libs/utils';
+import { castIntoMongoObjectId, cleanPayload, mapToDTO } from 'src/libs/utils';
 
 @Injectable()
 export class RestaurantService {
@@ -41,6 +45,27 @@ export class RestaurantService {
       .exec();
     if (!result) {
       throw new BadRequestException(EErrorMessage.NO_DATA_FOUND);
+    }
+    return mapToDTO(RestaurantResponseDTO, result);
+  }
+
+  public async updateRestaurant(
+    id: string,
+    updateRestaurantDTO: UpdateRestaurantDTO,
+  ): Promise<RestaurantResponseDTO> {
+    const objectId = castIntoMongoObjectId(id);
+    const cPayload = cleanPayload(updateRestaurantDTO);
+    const result = await this.restaurantModel.findOneAndUpdate(
+      {
+        _id: objectId,
+        status: ERestaurantStatus.ACTIVE,
+      },
+      cPayload,
+      { new: true, lean: true },
+    );
+    if (!result) {
+      //TODO:(kevin): create better error handling for specific errors
+      throw new InternalServerErrorException(EErrorMessage.UPDATE_FAILED);
     }
     return mapToDTO(RestaurantResponseDTO, result);
   }
