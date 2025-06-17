@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { ERestaurantStatus } from 'src/libs/enums';
+import { ERestaurantStatus } from '../libs/enums';
 
 export type RestaurantDocument = Restaurant & Document;
 

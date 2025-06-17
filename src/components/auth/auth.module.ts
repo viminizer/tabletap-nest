@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { HttpModule } from '@nestjs/axios';
 import { JwtModule } from '@nestjs/jwt';
-import { TOKEN_TTL } from 'src/libs/utils';
+import { TOKEN_TTL } from '../../libs/utils';
 
 @Module({
   imports: [

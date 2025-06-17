@@ -11,8 +11,12 @@ import {
   RestaurantResponseDTO,
   UpdateRestaurantDTO,
 } from './dto';
-import { EErrorMessage, ERestaurantStatus } from 'src/libs/enums';
-import { castIntoMongoObjectId, cleanPayload, mapToDTO } from 'src/libs/utils';
+import {
+  castIntoMongoObjectId,
+  cleanPayload,
+  mapToDTO,
+} from '../../libs/utils';
+import { EErrorMessage, ERestaurantStatus } from '../../libs/enums';
 
 @Injectable()
 export class RestaurantService {

@@ -9,13 +9,20 @@ import {
   ArrayMinSize,
   ArrayMaxSize,
   IsNotEmpty,
+  IsEnum,
 } from 'class-validator';
+import { ERestaurantStatus } from '../../../libs/enums';
 
 export class UpdateRestaurantDTO {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsEnum(ERestaurantStatus)
+  status?: string;
 
   @IsOptional()
   @IsNotEmpty()

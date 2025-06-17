@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { EUserStatus, EUserType } from 'src/libs/enums';
+import { EUserStatus, EUserType } from '../libs/enums';
 
 const UserSchema = new Schema(
   {

@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { EErrorMessage } from 'src/libs/enums';
+import { EErrorMessage } from '../../../libs/enums';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

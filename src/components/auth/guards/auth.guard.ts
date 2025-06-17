@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthService } from '../auth.service';
-import { EErrorMessage } from 'src/libs/enums';
+import { EErrorMessage } from '../../../libs/enums';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

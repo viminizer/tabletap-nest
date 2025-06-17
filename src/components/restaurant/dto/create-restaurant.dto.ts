@@ -10,9 +10,15 @@ import {
   ArrayMinSize,
   ArrayMaxSize,
   ValidateIf,
+  IsEnum,
 } from 'class-validator';
+import { ERestaurantStatus } from '../../../libs/enums';
 
 export class CreateRestaurantDTO {
+  @IsNotEmpty()
+  @IsString()
+  ownerId: string;
+
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -20,6 +26,10 @@ export class CreateRestaurantDTO {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsEnum(ERestaurantStatus)
+  status?: string;
 
   @IsNotEmpty()
   @IsString()

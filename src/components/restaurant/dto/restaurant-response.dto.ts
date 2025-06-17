@@ -13,6 +13,9 @@ export class RestaurantResponseDTO {
   readonly name: string;
 
   @Expose()
+  readonly status: string;
+
+  @Expose()
   readonly description?: string;
 
   @Expose()
@@ -32,6 +35,9 @@ export class RestaurantResponseDTO {
 
   @Expose()
   readonly breakTime?: number[];
+
+  @Expose()
+  readonly location?: string;
 
   @Expose()
   readonly createdAt: Date;

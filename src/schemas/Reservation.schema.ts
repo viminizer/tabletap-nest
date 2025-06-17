@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { EReservationStatus } from 'src/libs/enums';
+import { EReservationStatus } from '../libs/enums';
 
 const ReservationSchema = new Schema(
   {
