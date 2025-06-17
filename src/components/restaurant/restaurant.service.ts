@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -68,5 +69,15 @@ export class RestaurantService {
       throw new InternalServerErrorException(EErrorMessage.UPDATE_FAILED);
     }
     return mapToDTO(RestaurantResponseDTO, result);
+  }
+
+  public async deleteRestaurant(id: string): Promise<void> {
+    const objectId = castIntoMongoObjectId(id);
+    const result = await this.restaurantModel.findOneAndDelete({
+      _id: objectId,
+    });
+    if (!result) {
+      throw new NotFoundException(EErrorMessage.NO_DATA_FOUND);
+    }
   }
 }
