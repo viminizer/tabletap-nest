@@ -6,16 +6,22 @@ jest.mock('../../libs/utils', () => ({
 import { Test, TestingModule } from '@nestjs/testing';
 import { RestaurantService } from './restaurant.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { NotFoundException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { EErrorMessage, ERestaurantStatus } from '../../libs/enums';
 import {
+  mockCreateRestaurantDTO,
   mockRestaurantResponseDTO,
+  mockUpdateRestaurantResponseDTO,
   MONGO_OBJECT_ID,
 } from './__mocks__/restaurant.mock';
 import { castIntoMongoObjectId, mapToDTO } from '../../libs/utils';
 
 const mockRestaurantModel = {
   findOne: jest.fn(),
+  create: jest.fn(),
 };
 
 describe('RestaurantService', () => {
@@ -59,9 +65,33 @@ describe('RestaurantService', () => {
           exec: () => Promise.resolve(null),
         }),
       });
-
       await expect(service.getRestaurant(MONGO_OBJECT_ID)).rejects.toThrow(
         new NotFoundException(EErrorMessage.NO_DATA_FOUND),
+      );
+    });
+  });
+
+  describe('createRestaurant', () => {
+    it('should take CreateRestaurantDto and return new restaurant', async () => {
+      mockRestaurantModel.create.mockReturnValueOnce({
+        toObject: () => mockRestaurantResponseDTO,
+      });
+      const result = await service.createRestaurant(mockCreateRestaurantDTO);
+      expect(mockRestaurantModel.create).toHaveBeenCalledWith(
+        mockCreateRestaurantDTO,
+      );
+      expect(result).toEqual(mockRestaurantResponseDTO);
+      expect(mapToDTO).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw InternalServerErrorException when restaurant is not created', async () => {
+      mockRestaurantModel.create.mockRejectedValue(
+        new InternalServerErrorException(EErrorMessage.CREATE_FAILED),
+      );
+      await expect(
+        service.createRestaurant(mockCreateRestaurantDTO),
+      ).rejects.toThrow(
+        new InternalServerErrorException(EErrorMessage.CREATE_FAILED),
       );
     });
   });
