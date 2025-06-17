@@ -1,6 +1,7 @@
 jest.mock('../../libs/utils', () => ({
   castIntoMongoObjectId: jest.fn().mockImplementation((id) => id),
   mapToDTO: jest.fn().mockImplementation((_dto, data) => data),
+  cleanPayload: jest.fn().mockImplementation((dto) => dto),
 }));
 
 import { Test, TestingModule } from '@nestjs/testing';
@@ -14,14 +15,20 @@ import { EErrorMessage, ERestaurantStatus } from '../../libs/enums';
 import {
   mockCreateRestaurantDTO,
   mockRestaurantResponseDTO,
+  mockUpdateRestaurantDTO,
   mockUpdateRestaurantResponseDTO,
   MONGO_OBJECT_ID,
 } from './__mocks__/restaurant.mock';
-import { castIntoMongoObjectId, mapToDTO } from '../../libs/utils';
+import {
+  castIntoMongoObjectId,
+  cleanPayload,
+  mapToDTO,
+} from '../../libs/utils';
 
 const mockRestaurantModel = {
   findOne: jest.fn(),
   create: jest.fn(),
+  findOneAndUpdate: jest.fn(),
 };
 
 describe('RestaurantService', () => {
@@ -93,6 +100,29 @@ describe('RestaurantService', () => {
       ).rejects.toThrow(
         new InternalServerErrorException(EErrorMessage.CREATE_FAILED),
       );
+    });
+  });
+
+  describe('updateRestaurant', () => {
+    it('should take UpdateRestaurantDTO and return RestaurantResponseDTO', async () => {
+      mockRestaurantModel.findOneAndUpdate.mockReturnValue(
+        mockUpdateRestaurantResponseDTO,
+      );
+      const result = await service.updateRestaurant(
+        MONGO_OBJECT_ID,
+        mockUpdateRestaurantDTO,
+      );
+      expect(result).toEqual(mockUpdateRestaurantResponseDTO);
+      expect(mockRestaurantModel.findOneAndUpdate).toHaveBeenCalledWith(
+        { _id: MONGO_OBJECT_ID, status: ERestaurantStatus.ACTIVE },
+        mockUpdateRestaurantDTO,
+        { new: true, lean: true },
+      );
+      expect(cleanPayload).toHaveBeenCalledWith(mockUpdateRestaurantDTO);
+      expect(cleanPayload).toHaveBeenCalledTimes(1);
+      expect(mapToDTO).toHaveBeenCalledTimes(1);
+      expect(castIntoMongoObjectId).toHaveBeenCalledWith(MONGO_OBJECT_ID);
+      expect(castIntoMongoObjectId).toHaveBeenCalledTimes(1);
     });
   });
 });

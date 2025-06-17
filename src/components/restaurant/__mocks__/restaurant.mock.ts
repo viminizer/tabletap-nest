@@ -52,7 +52,7 @@ export const mockUpdateRestaurantDTO: UpdateRestaurantDTO = {
 };
 
 export const mockUpdateRestaurantResponseDTO: RestaurantResponseDTO = {
-  id: '685018c0ccc63266b76b0321',
+  id: MONGO_OBJECT_ID,
   status: 'ACTIVE',
   ownerId: '685018c0ccc63266b76b0321',
   name: 'Test Restaurant',
