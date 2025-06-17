@@ -18,6 +18,7 @@ import {
   mockUpdateRestaurantDTO,
   mockUpdateRestaurantResponseDTO,
   MONGO_OBJECT_ID,
+  NON_EXISTENT_ID,
 } from './__mocks__/restaurant.mock';
 import {
   castIntoMongoObjectId,
@@ -29,6 +30,7 @@ const mockRestaurantModel = {
   findOne: jest.fn(),
   create: jest.fn(),
   findOneAndUpdate: jest.fn(),
+  findOneAndDelete: jest.fn(),
 };
 
 describe('RestaurantService', () => {
@@ -136,6 +138,30 @@ describe('RestaurantService', () => {
       await expect(
         service.updateRestaurant(MONGO_OBJECT_ID, mockUpdateRestaurantDTO),
       ).rejects.toThrow(EErrorMessage.UPDATE_FAILED);
+    });
+  });
+
+  describe('deleteRestaurant', () => {
+    it('should delete restaurant if found', async () => {
+      mockRestaurantModel.findOneAndDelete.mockReturnValue(
+        mockUpdateRestaurantResponseDTO,
+      );
+      await expect(
+        service.deleteRestaurant(MONGO_OBJECT_ID),
+      ).resolves.toBeUndefined();
+      expect(mockRestaurantModel.findOneAndDelete).toHaveBeenCalledWith({
+        _id: MONGO_OBJECT_ID,
+      });
+      expect(castIntoMongoObjectId).toHaveBeenCalledWith(MONGO_OBJECT_ID);
+    });
+    it('should throw NotFoundException if restaurant not found', async () => {
+      mockRestaurantModel.findOneAndDelete.mockResolvedValue(null);
+      await expect(service.deleteRestaurant(NON_EXISTENT_ID)).rejects.toThrow(
+        NotFoundException,
+      );
+      await expect(service.deleteRestaurant(NON_EXISTENT_ID)).rejects.toThrow(
+        new NotFoundException(EErrorMessage.NO_DATA_FOUND),
+      );
     });
   });
 });
