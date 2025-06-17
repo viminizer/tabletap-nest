@@ -104,7 +104,7 @@ describe('RestaurantService', () => {
   });
 
   describe('updateRestaurant', () => {
-    it('should take UpdateRestaurantDTO and return RestaurantResponseDTO', async () => {
+    it('should update and return RestaurantResponseDTO', async () => {
       mockRestaurantModel.findOneAndUpdate.mockReturnValue(
         mockUpdateRestaurantResponseDTO,
       );
@@ -123,6 +123,19 @@ describe('RestaurantService', () => {
       expect(mapToDTO).toHaveBeenCalledTimes(1);
       expect(castIntoMongoObjectId).toHaveBeenCalledWith(MONGO_OBJECT_ID);
       expect(castIntoMongoObjectId).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw InternalServerErrorException on update failure', async () => {
+      mockRestaurantModel.findOneAndUpdate.mockRejectedValue(
+        new InternalServerErrorException(EErrorMessage.UPDATE_FAILED),
+      );
+
+      await expect(
+        service.updateRestaurant(MONGO_OBJECT_ID, mockUpdateRestaurantDTO),
+      ).rejects.toThrow(InternalServerErrorException);
+      await expect(
+        service.updateRestaurant(MONGO_OBJECT_ID, mockUpdateRestaurantDTO),
+      ).rejects.toThrow(EErrorMessage.UPDATE_FAILED);
     });
   });
 });
